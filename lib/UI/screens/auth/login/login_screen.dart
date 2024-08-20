@@ -15,7 +15,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   String email = "";
-  String pass = "";
+  String password = "";
   String userName = "";
   @override
   Widget build(BuildContext context) {
@@ -41,9 +41,15 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               const SizedBox(height: 10),
               TextFormField(
+                onChanged: (text) {
+                  email = text;
+                },
                 decoration: const InputDecoration(label: Text("Email")),
               ),
               TextFormField(
+                onChanged: (text) {
+                  password = text;
+                },
                 obscureText: true,
                 decoration: const InputDecoration(
                   label: Text("Password"),
@@ -84,7 +90,7 @@ class _LoginScreenState extends State<LoginScreen> {
       final credential =
       await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: email,
-        password: pass,
+        password: password,
       );
       if (context.mounted) {
         hideLoading(context);

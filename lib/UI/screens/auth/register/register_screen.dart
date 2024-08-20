@@ -44,13 +44,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
               const SizedBox(height: 10),
               TextFormField(
+                onChanged: (text) {
+                  username = text;
+                },
                 keyboardType: TextInputType.emailAddress,
                 decoration: const InputDecoration(label: Text("User Name")),
               ),
               TextFormField(
+                onChanged: (text) {
+                  email = text;
+                },
                 decoration: const InputDecoration(label: Text("Email")),
               ),
               TextFormField(
+                onChanged: (text) {
+                  password = text;
+                },
                 obscureText: true,
                 decoration: const InputDecoration(
                   label: Text("Password"),
@@ -102,7 +111,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
       }
     } on FirebaseAuthException catch (authError) {
       String message;
-      print("Error=========${authError.code}");
       if (authError.code == 'weak-password') {
         message = "The password provided is too weak.";
       } else if (authError.code == 'email-already-in-use') {
@@ -123,13 +131,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
             body: Constants.defaultErrorMessage,
             posButtonTitle: "ok");
       }
-      else{"Failed to create user: $e";}
     }
   }
-
   void registerUserInFireStore(UserDM user) async {
     CollectionReference collectionReference =
-    FirebaseFirestore.instance.collection(UserDM.collectionName);
+        FirebaseFirestore.instance.collection(UserDM.collectionName);
     DocumentReference newUserDoc = collectionReference.doc(user.id);
     await newUserDoc.set(user.toJson());
   }
