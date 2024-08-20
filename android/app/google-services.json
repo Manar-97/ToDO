@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "502657256168",
+    "project_id": "tooodooo-a66e5",
+    "storage_bucket": "tooodooo-a66e5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:502657256168:android:b98197ddf6968dbfb8d75d",
+        "android_client_info": {
+          "package_name": "com.manar.tooodooo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAlNpKMfPIPxCJ5WNBTX_Tss3hfwSvitiM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
