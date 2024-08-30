@@ -2,13 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
-import 'package:tooodooo/UI/screens/auth/firebase_auth_error.dart';
-import 'package:tooodooo/UI/screens/auth/login/login_screen.dart';
-import 'package:tooodooo/UI/screens/auth/reuse_header.dart';
-import 'package:tooodooo/UI/screens/auth/user_valid_data.dart';
-import 'package:tooodooo/UI/widget/cust_text_field.dart';
-import 'package:tooodooo/UI/widget/dialogs.dart';
+import 'package:tooodooo/UI/screens/home/home.dart';
+import 'package:tooodooo/UI/utils/constants.dart';
+import 'package:tooodooo/UI/utils/dialog_utils.dart';
+import 'package:tooodooo/db/model/user_dm.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -19,202 +16,129 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  bool isHidePassword = true;
-  bool isHideConfirmpassword = true;
+  String email = "";
+  String password = "";
+  String username = "";
 
   @override
   Widget build(BuildContext context) {
-    TextStyle formStyle = GoogleFonts.quicksand(
-        fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black);
     return Scaffold(
-        backgroundColor: Colors.white,
-        body: SingleChildScrollView(
+      appBar: AppBar(
+        elevation: 0,
+        title: const Text("Register"),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(14.0),
+        child: SingleChildScrollView(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Header(title: 'registration'),
-              Padding(
-                padding: const EdgeInsets.all(20),
-                child: Form(
-                  key: formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'name',
-                        style: formStyle,
-                      ),
-                      CustomTextField(
-                        control: name,
-                        hint:'registration_name_hint',
-                        type: TextInputType.name,
-                        check: validName,
-                      ),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      Text('email',
-                        style: formStyle,
-                      ),
-                      CustomTextField(
-                        check: validEmail,
-                        control: email,
-                        hint: 'registration_email_hint',
-                        type: TextInputType.emailAddress,
-                      ),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      Text('registration_phone_hint',
-                        style: formStyle,
-                      ),
-                      CustomTextField(
-                        check: validPhone,
-                        control: phone,
-                        hint: 'registration_phone_hint',
-                        type: TextInputType.phone,
-                      ),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      Text('password',
-                        style: formStyle,
-                      ),
-                      CustomTextField(
-                        check: validPassword,
-                        control: password,
-                        hint: 'registration_password_hint',
-                        isSecrete: isHidePassword,
-                        passwordIcon: IconButton(
-                            onPressed: () {
-                              setState(() {
-                                isHidePassword = !isHidePassword;
-                              });
-                            },
-                            icon: Icon(
-                              isHidePassword == true
-                                  ? Icons.visibility_off
-                                  : Icons.visibility,
-                              color: const Color(0xFFADADAD),
-                            )),
-                      ),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      Text('config_password',
-                        style: formStyle,
-                      ),
-                      CustomTextField(
-                        check: validConfirmPassword,
-                        control: confirmPassword,
-                        hint:'config_password_hint',
-                        isSecrete: isHideConfirmpassword,
-                        passwordIcon: IconButton(
-                            onPressed: () {
-                              setState(() {
-                                isHideConfirmpassword = !isHideConfirmpassword;
-                              });
-                            },
-                            icon: Icon(
-                              isHideConfirmpassword == true
-                                  ? Icons.visibility_off
-                                  : Icons.visibility,
-                              color: const Color(0xFFADADAD),
-                            )),
-                      ),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      Container(
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                            color: const Color(0xFF5D9CEC),
-                            borderRadius: BorderRadius.circular(50)),
-                        child: TextButton(
-                          onPressed: () {
-                            // signUp();
-                          },
-                          child: Text('registration',
-                            style: GoogleFonts.quicksand(
-                                fontSize: 18,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 30,
-                      )
-                    ],
+              SizedBox(
+                height: MediaQuery.of(context).size.height * .25,
+              ),
+              TextFormField(
+                onChanged: (text) {
+                  username = text;
+                },
+                decoration: const InputDecoration(
+                  label: Text(
+                    "user name",
                   ),
                 ),
-              )
+              ),
+              TextFormField(
+                onChanged: (text) {
+                  email = text;
+                },
+                decoration: const InputDecoration(
+                  label: Text(
+                    "Email",
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+              TextFormField(
+                onChanged: (text) {
+                  password = text;
+                },
+                decoration: const InputDecoration(
+                  label: Text(
+                    "Password",
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * .2,
+              ),
+              ElevatedButton(
+                  onPressed: () {
+                    signUp();
+                  },
+                  child: const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+                    child: Row(
+                      children: [
+                        Text(
+                          "Create account",
+                          style: TextStyle(fontSize: 18),
+                        ),
+                        Spacer(),
+                        Icon(Icons.arrow_forward)
+                      ],
+                    ),
+                  )),
             ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 
-  String? validConfirmPassword(String? checkPassword) {
-    if (password.text == checkPassword) {
-      return null;
-    } else
-      return 'not typical';
+  void signUp() async {
+    try {
+      showLoading(context);
+      final credential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      UserDM.currentUser =
+          UserDM(id: credential.user!.uid, email: email, userName: username);
+      registerUserInFireStore(UserDM.currentUser!);
+      if (context.mounted) {
+        hideLoading(context);
+        Navigator.pushNamed(context, Home.routeName);
+      }
+    } on FirebaseAuthException catch (authError) {
+      String message;
+      if (authError.code == 'weak-password') {
+        message = "The password provided is too weak.";
+      } else if (authError.code == 'email-already-in-use') {
+        message = "The account already exists for that email.";
+      } else {
+        message = Constants.defaultErrorMessage;
+      }
+      if (context.mounted) {
+        hideLoading(context);
+        showMessage(context,
+            title: "Error", body: message, posButtonTitle: "ok");
+      }
+    } catch (e) {
+      if (context.mounted) {
+        hideLoading(context);
+        showMessage(context,
+            title: "Error",
+            body: Constants.defaultErrorMessage,
+            posButtonTitle: "ok");
+      }
+    }
   }
 
-  // void signUp() async {
-  //   if (formKey.currentState?.validate() == false) {
-  //     return;
-  //   }
-  //   var authProvider = Provider.of<AuthProvider>(context, listen: false);
-  //   try {
-  //     Dialogs.showLoadingDialog(context,'loading');
-  //     await authProvider.registration(email.text, password.text, name.text);
-  //     Dialogs.closeMessageDialog(context);
-  //     Dialogs.showMessageDialog(
-  //       context,
-  //       "registration_dialog",
-  //       isClosed: false,
-  //       positiveActionText:"ok",
-  //       positiveAction: () {
-  //         Navigator.pushReplacementNamed(context, LoginScreen.routeName);
-  //       },
-  //       icon: const Icon(
-  //         Icons.check_circle_sharp,
-  //         color: Colors.green,
-  //         size: 30,
-  //       ),
-  //     );
-  //   } on FirebaseAuthException catch (e) {
-  //     Dialogs.closeMessageDialog(context);
-  //     if (e.code == FireAuthErrors.weakPassword) {
-  //       Dialogs.showMessageDialog(context, 'weak password',
-  //           isClosed: false,
-  //           positiveActionText: 'ok',
-  //           icon: const Icon(
-  //             Icons.dangerous,
-  //             color: Colors.red,
-  //             size: 30,
-  //           ));
-  //     } else if (e.code == FireAuthErrors.emailExcist) {
-  //       Dialogs.showMessageDialog(context, 'Email alredy excist',
-  //           isClosed: false,
-  //           positiveActionText: 'ok',
-  //           icon: const Icon(
-  //             Icons.dangerous,
-  //             color: Colors.red,
-  //             size: 30,
-  //           ));
-  //     } else {
-  //       Dialogs.showMessageDialog(context, 'Something went wrong , ${e.code}',
-  //           isClosed: false,
-  //           positiveActionText: 'ok',
-  //           icon: const Icon(
-  //             Icons.dangerous,
-  //             color: Colors.red,
-  //             size: 30,
-  //           ));
-  //     }
-  //   }
-  // }
+  void registerUserInFireStore(UserDM user) async {
+    CollectionReference collectionReference =
+        FirebaseFirestore.instance.collection(UserDM.collectionName);
+    DocumentReference newUserDoc = collectionReference.doc(user.id);
+    await newUserDoc.set(user.toJson());
+  }
 }

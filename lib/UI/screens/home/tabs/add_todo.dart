@@ -188,14 +188,14 @@ class _AddTodoState extends State<AddTodo> {
     if (!validation()) {
       return;
     }
-    TodoDM task = TodoDM(
+    TodoDM todoDM = TodoDM(
         title: title.text,
         description: description.text,
         date: Timestamp.fromMillisecondsSinceEpoch(
             selectedDate!.millisecondsSinceEpoch));
     try {
       Dialogs.showLoadingDialog(context, 'Add Task...', isCanceled: false);
-      TasksFun.addTask(task, authProvider.user!.id!);
+      TasksFun.addTask(todoDM, authProvider.user!.id!);
       Dialogs.closeMessageDialog(context);
       Dialogs.showMessageDialog(
         context,
@@ -213,7 +213,7 @@ class _AddTodoState extends State<AddTodo> {
       );
     } catch (e) {
       Dialogs.closeMessageDialog(context);
-      Dialogs.showMessageDialog(context, 'some thing went wrong',
+      Dialogs.showMessageDialog(context, e.toString(),
           icon: const Icon(
             Icons.error,
             color: Colors.red,

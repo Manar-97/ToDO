@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:tooodooo/UI/screens/home/tabs/add_todo.dart';
 import 'package:tooodooo/UI/screens/home/tabs/list/list_tab.dart';
 import 'package:tooodooo/UI/screens/home/tabs/settings/settings_tab.dart';
+import 'package:tooodooo/db/model/todo_dm.dart';
 import 'package:tooodooo/db/model/user_dm.dart';
 import 'package:tooodooo/db/provider/auth_provider.dart';
 
@@ -29,9 +30,9 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Welcome Manar',
-          style: TextStyle(color: Colors.black),
+        title: Text(
+          'Welcome ${UserDM.currentUser?.userName}',
+          style: const TextStyle(color: Colors.black),
         ),
       ),
       body: tabs[currentIndex],

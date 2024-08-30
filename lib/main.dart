@@ -62,7 +62,7 @@ class MyApp extends StatelessWidget {
         RegisterScreen.routeName: (_) => const RegisterScreen(),
         EditTask.routeName: (_) => const EditTask(),
       },
-      initialRoute: Home.routeName,
+      initialRoute: LoginScreen.routeName,
     );
   }
 }
