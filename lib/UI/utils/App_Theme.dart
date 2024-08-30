@@ -1,44 +1,81 @@
 import 'package:flutter/material.dart';
-import 'package:tooodooo/UI/utils/App_Colors.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 abstract class AppTheme {
   static ThemeData light = ThemeData(
-      useMaterial3: false,
-      scaffoldBackgroundColor: AppColors.background,
-      canvasColor: Colors.white,
-      colorScheme: ColorScheme.fromSeed(
-          seedColor: AppColors.primary,
-          primary: AppColors.primary,
-          secondary: Colors.white,
-          onPrimary: Colors.white),
-      appBarTheme: const AppBarTheme(
-        backgroundColor: AppColors.primary,
-        elevation: 0,
-      ),
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-          backgroundColor: Colors.white,
-          selectedItemColor: AppColors.primary,
-          unselectedItemColor: AppColors.grey,
-          selectedIconTheme: IconThemeData(size: 33),
-          unselectedIconTheme: IconThemeData(size: 33)));
-
+          unselectedIconTheme:
+          IconThemeData(color: Color(0xFFC8C9CB), size: 30),
+          selectedIconTheme: IconThemeData(size: 35),
+          backgroundColor: Colors.white),
+      scaffoldBackgroundColor: const Color(0xFFDFECDB),
+      colorScheme: ColorScheme.fromSeed(
+        onBackground: Colors.white,
+        secondaryContainer: Colors.black,
+        primaryContainer: Colors.white,
+        seedColor: const Color(0xFF82B1FF),
+        primary: Colors.blueAccent[100],
+        onPrimary: Colors.white,
+        background: const Color(0xFFDFECDB),
+        secondary: Colors.white,
+        onSecondary: const Color(0xFF61E757),
+      ),
+      textTheme: TextTheme(
+          headlineMedium: GoogleFonts.poppins(
+            color: Colors.white,
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+          ),
+          labelMedium: GoogleFonts.inter(
+              fontWeight: FontWeight.normal,
+              fontSize: 20,
+              color: const Color(0xFFA9A9A9)),
+          labelSmall: GoogleFonts.inter(
+              fontWeight: FontWeight.normal, fontSize: 15, color: Colors.black),
+          bodyMedium: GoogleFonts.poppins(
+            color: Colors.black,
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+          bodySmall: GoogleFonts.roboto(
+            fontSize: 12,
+            fontWeight: FontWeight.normal,
+            color: Colors.black,
+          )));
+  
   static ThemeData dark = ThemeData(
-      useMaterial3: false,
-      scaffoldBackgroundColor: AppColors.darkBackground,
-      canvasColor: Colors.black,
-      colorScheme: ColorScheme.fromSeed(
-          seedColor: AppColors.primary,
-          primary: AppColors.primary,
-          secondary: Colors.black,
-          onPrimary: Colors.black),
-      appBarTheme: const AppBarTheme(
-        backgroundColor: AppColors.primary,
-        elevation: 0,
-      ),
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-          backgroundColor: Colors.black,
-          selectedItemColor: AppColors.primary,
-          unselectedItemColor: Colors.white,
-          selectedIconTheme: IconThemeData(size: 33),
-          unselectedIconTheme: IconThemeData(size: 33)));
-}
+          backgroundColor: Color(0xFF141922),
+          unselectedIconTheme: IconThemeData(color: Colors.white, size: 30),
+          selectedIconTheme: IconThemeData(size: 35)),
+      scaffoldBackgroundColor: const Color(0xFF1E1E1E),
+      colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFF82B1FF),
+          secondaryContainer: Colors.white,
+          primaryContainer: Colors.black,
+          primary: Colors.blueAccent[100],
+          onBackground: const Color(0xFF141922),
+          onPrimary: Colors.white,
+          background: const Color(0xFF200E32),
+          secondary: Colors.white,
+          onSecondary: const Color(0xFF61E757)),
+      textTheme: TextTheme(
+          headlineMedium: GoogleFonts.poppins(
+            color: Colors.black,
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+          ),
+          labelMedium: GoogleFonts.inter(
+              fontWeight: FontWeight.normal, fontSize: 20, color: Colors.white),
+          labelSmall: GoogleFonts.inter(
+              fontWeight: FontWeight.normal, fontSize: 15, color: Colors.white),
+          bodyMedium: GoogleFonts.poppins(
+            color: Colors.white,
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+          bodySmall: GoogleFonts.roboto(
+            fontSize: 13,
+            fontWeight: FontWeight.normal,
+            color: Colors.white,
+          )));}

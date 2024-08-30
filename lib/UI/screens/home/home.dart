@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:tooodooo/UI/screens/home/tabs/add_todo.dart';
 import 'package:tooodooo/UI/screens/home/tabs/list/list_tab.dart';
 import 'package:tooodooo/UI/screens/home/tabs/settings/settings_tab.dart';
-import 'package:tooodooo/UI/utils/App_Colors.dart';
-import '../add_bottom_sheet/add_bottom_sheet.dart';
+import 'package:tooodooo/db/model/user_dm.dart';
+import 'package:tooodooo/db/provider/auth_provider.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -26,19 +28,22 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text(
-            'To Do List',
-            style: TextStyle(color: Colors.white),
-          ),
+      appBar: AppBar(
+        title: const Text(
+          'Welcome Manar',
+          style: TextStyle(color: Colors.black),
         ),
-        floatingActionButton: buildFloatingActionButton(),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        bottomNavigationBar: buildBottomNavigation(),
-        body: tabs[currentIndex]);
+      ),
+      body: tabs[currentIndex],
+      floatingActionButton: buildFloatingActionButton(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: buildBottomNavigation(),
+    );
   }
 
   Widget buildBottomNavigation() => BottomAppBar(
+    color: Colors.transparent,
+        height: MediaQuery.of(context).size.height * 0.12,
         shape: const CircularNotchedRectangle(),
         notchMargin: 10,
         clipBehavior: Clip.hardEdge,
@@ -66,12 +71,23 @@ class _HomeState extends State<Home> {
 
   buildFloatingActionButton() => FloatingActionButton(
         onPressed: () async {
-          await AddBottomSheet.show(context);
-          listTabKey.currentState?.gettodosListFromFireStore();
+          await showModalBottomSheet(
+            context: context,
+            builder: (context) => const AddTodo(),
+          );
         },
-        backgroundColor: AppColors.primary,
-        shape: const StadiumBorder(
-            side: BorderSide(color: Colors.white, width: 3)),
-        child: const Icon(Icons.add),
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        shape: StadiumBorder(
+            side: BorderSide(
+                color: Theme.of(context).colorScheme.onPrimary, width: 3)),
+        child: Icon(
+          Icons.add,
+          color: Theme.of(context).colorScheme.onPrimary,
+        ),
       );
+
+  void signOut() {
+    var authProvider = Provider.of<AuthProvider>(context, listen: false);
+    authProvider.signOut(context);
+  }
 }
